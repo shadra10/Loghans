@@ -48,14 +48,6 @@ void Game::Init(void){
 
 	gameState = 0;
 
-	num_bullets = 0;
-
-	num_enemies = 0;
-
-	missle_timer = 0;
-
-	camera_angle_Y = 0;
-
     // Set variables
     animating_ = true;
 	paused = false;
@@ -66,10 +58,6 @@ void Game::Init(void){
 	s_input = false;
 	d_input = false;
 	w_input = false;
-	q_input = false;
-	e_input = false;
-	z_input = false;
-	x_input = false;
 }
 
        
@@ -158,22 +146,6 @@ void Game::SetupResources(void){
 
 	filename = std::string(MATERIAL_DIRECTORY) + std::string("/grass.jpg");
 	resman_.LoadResource(Texture, "Grass", filename.c_str());
-
-	// Load texture to be applied to sphere
-	filename = std::string(MATERIAL_DIRECTORY) + std::string("/Helis.jpg");
-	resman_.LoadResource(Texture, "Helis", filename.c_str());
-
-	// Load texture to be applied to sphere
-	filename = std::string(MATERIAL_DIRECTORY) + std::string("/Tanks.jpg");
-	resman_.LoadResource(Texture, "Tanks", filename.c_str());
-
-	filename = std::string(MATERIAL_DIRECTORY) + std::string("/Guns.jpg");
-	resman_.LoadResource(Texture, "Guns", filename.c_str());
-
-	filename = std::string(MATERIAL_DIRECTORY) + std::string("/Waifu.jpg");
-	resman_.LoadResource(Texture, "Waifu", filename.c_str());
-
-
 }
 
 
@@ -182,32 +154,23 @@ void Game::SetupScene(void){
     // Set background color for the scene
     scene_.SetBackgroundColor(viewport_background_color_g);
 
+	world = CreateInstance("world", "GroundMesh", "ShinyTextureMaterial", "Grass");
+	world->Scale(glm::vec3(0.0, 0.0, 0.0));
+
+
     // Create an instance of the sphere mesh
 
     player = CreatePlayer();
-	
-    player->Scale(glm::vec3(1.0, 3.0, 1.0));
-    glm::quat rotation = glm::angleAxis(-glm::pi<float>()/2.0f, glm::vec3(1.0, 0.0, 0.0));
-    player->Rotate(rotation);
-    player->Translate(glm::vec3(0.0, 0.0, -2.0));
 
-
-	game::SceneNode *ground = CreateInstance("Ground", "GroundMesh", "ShinyTextureMaterial", "Grass");
+	ground = CreateInstance("Ground", "GroundMesh", "ShinyTextureMaterial", "Grass");
 	ground->Scale(glm::vec3(1000, 1.0, 1000.0));
-	ground->Translate(glm::vec3(0.0, -15.0, 0.0));
-
-	game::SceneNode *t_blade = CreateInstance("t_blade", "GroundMesh", "ShinyTextureMaterial", "BOrdy");
-	t_blade->Scale(glm::vec3(5.0, 0.25, 0.01));
-	t_blade->Translate(glm::vec3(0.0, 0.5, -2.0));
-
-	t_blade->SetOrientation(glm::angleAxis(4.7f, camera_.GetSide()) * camera_.GetOrientation());
-	//t_blade->Translate(-camera_.GetSide()*player->speed);
+	ground->SetPosition(glm::vec3(0.0, -15.0, 0.0));
 
 	
+	world->AddChild(player);
+	world->AddChild(ground);
 
-
-	
-
+	scene_.SetRoot(world);
 	
 }
 
@@ -228,7 +191,6 @@ void Game::MainLoop(void){
 
 
         // Animate the scene
-		SceneNode *node = scene_.GetNode("t_blade");
         if (animating_){
             static double last_time = 0;
             double current_time = glfwGetTime();
@@ -236,9 +198,10 @@ void Game::MainLoop(void){
                 scene_.Update();
 
                 // Animate the sphere
-				node = scene_.GetNode("t_blade");
                 glm::quat rotation = glm::angleAxis(glm::pi<float>()/10.0f, glm::vec3(0.0, 0.0, 1.0));
-                node->Rotate(rotation);
+				t_blade->Rotate(rotation);
+				rotation = glm::angleAxis(glm::pi<float>() / 10.0f, glm::vec3(1.0, 0.0, 0.0));
+				b_blade->Rotate(rotation);
 
 
                 last_time = current_time;
@@ -250,7 +213,7 @@ void Game::MainLoop(void){
 			glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 
-			camera_.SetPosition(scene_.GetNode("player")->GetPosition()+ glm::vec3(0,1,0));
+			camera_.SetPosition(player->GetPosition()+ glm::vec3(0,1,0));
 
 			glfwGetCursorPos(window_, &CursorXPos, &CursorYPos);
 
@@ -266,16 +229,14 @@ void Game::MainLoop(void){
 
 
 			}
-			if (CursorYPos > OldCursorYPos  && camera_angle_Y < 250) {
+			if (CursorYPos > OldCursorYPos) {
 
-				camera_angle_Y += CursorYPos - OldCursorYPos;
 				camera_.Pitch(-rot_factor*(CursorYPos - OldCursorYPos)*0.25);
 
 
 			}
-			if (CursorYPos < OldCursorYPos && camera_angle_Y > -250) {
+			if (CursorYPos < OldCursorYPos) {
 
-				camera_angle_Y -= OldCursorYPos - CursorYPos;
 				camera_.Pitch(rot_factor*(OldCursorYPos - CursorYPos)*0.25);
 
 
@@ -292,112 +253,33 @@ void Game::MainLoop(void){
 
 	
 		if (a_input) {
-			camera_.Yaw(rot_factor* 0.573f);
-			player->SetOrientation(glm::angleAxis(0.01f, glm::vec3(0.0, 1.0, 0.0)) * player->GetOrientation());
-			//player->Translate(-camera_.GetSide()*player->speed);
-
-			node->SetOrientation(glm::angleAxis(4.7f, player->GetSide()) * player->GetOrientation());
-			node->Translate(-camera_.GetSide()*player->speed);
+			camera_.Translate(-camera_.GetSide()*player->speed);
+			player->SetOrientation(glm::angleAxis(4.7f, camera_.GetSide()) * camera_.GetOrientation());
+			player->Translate(-camera_.GetSide()*player->speed);
 
 		}
 		if (s_input) {
-			camera_.Translate(-player->GetForward()*player->speed);
-			//player->SetOrientation(glm::angleAxis(4.7f, player->GetSide()) * camera_.GetOrientation());
-			player->Translate(-player->GetForward()*player->speed);
+			camera_.Translate(-camera_.GetForward()*player->speed);
+			player->SetOrientation(glm::angleAxis(4.7f, camera_.GetSide()) * camera_.GetOrientation());
+			player->Translate(-camera_.GetForward()*player->speed);
 
-			node->SetOrientation(glm::angleAxis(4.7f, camera_.GetSide()) * camera_.GetOrientation());
-			node->Translate(-camera_.GetForward()*player->speed);
 		}
 		if (d_input) {
-			//camera_.Translate(-camera_.GetSide()*player->speed);
-			camera_.Yaw(-rot_factor* 0.573f);
-			player->SetOrientation(glm::angleAxis(-0.01f, glm::vec3(0.0, 1.0, 0.0)) * player->GetOrientation());
-			//player->Translate(-camera_.GetSide()*player->speed);
+			camera_.Translate(camera_.GetSide()*player->speed);
+			player->SetOrientation(glm::angleAxis(4.7f,camera_.GetSide()) * camera_.GetOrientation());
+			player->Translate(camera_.GetSide()*player->speed);
 
-			node->SetOrientation(glm::angleAxis(4.7f, player->GetSide()) * player->GetOrientation());
-			node->Translate(-camera_.GetSide()*player->speed);
 		}
 		if (w_input) {
-			camera_.Translate(player->GetForward()*player->speed);
-			//player->SetOrientation(glm::angleAxis(4.7f, player->GetSide()) * camera_.GetOrientation());
-			player->Translate(player->GetForward()*player->speed);
+			camera_.Translate(camera_.GetForward()*player->speed);
+			player->SetOrientation(glm::angleAxis(4.7f, camera_.GetSide()) * camera_.GetOrientation());
+			player->Translate(camera_.GetForward()*player->speed);
 
-			node->SetOrientation(glm::angleAxis(4.7f, camera_.GetSide()) * camera_.GetOrientation());
-			node->Translate(camera_.GetForward()*player->speed);
-		}
-
-		if (q_input) {
-			camera_.Translate(-player->GetSide()*player->speed);
-			//player->SetOrientation(glm::angleAxis(4.7f, camera_.GetSide()) * camera_.GetOrientation());
-			player->Translate(-player->GetSide()*player->speed);
-
-			node->SetOrientation(glm::angleAxis(4.7f, camera_.GetSide()) * camera_.GetOrientation());
-			node->Translate(camera_.GetSide()*player->speed);
-		}
-
-		if (e_input) {
-			camera_.Translate(player->GetSide()*player->speed);
-			//player->SetOrientation(glm::angleAxis(4.7f, camera_.GetSide()) * camera_.GetOrientation());
-			player->Translate(player->GetSide()*player->speed);
-
-			node->SetOrientation(glm::angleAxis(4.7f, camera_.GetSide()) * camera_.GetOrientation());
-			node->Translate(camera_.GetSide()*player->speed);
-		}
-
-		if (z_input) {
-			camera_.Translate(glm::vec3(0.0, 1.0, 0.0)*player->speed);
-			//player->SetOrientation(glm::angleAxis(4.7f, camera_.GetSide()) * camera_.GetOrientation());
-			player->Translate(glm::vec3(0.0, 1.0, 0.0)*player->speed);
-
-			node->SetOrientation(glm::angleAxis(4.7f, camera_.GetSide()) * camera_.GetOrientation());
-			node->Translate(camera_.GetSide()*player->speed);
-		}
-
-		if (x_input) {
-			camera_.Translate(-glm::vec3(0.0, 1.0, 0.0)*player->speed);
-			//player->SetOrientation(glm::angleAxis(4.7f, camera_.GetSide()) * camera_.GetOrientation());
-			player->Translate(-glm::vec3(0.0,1.0,0.0)*player->speed);
-
-			node->SetOrientation(glm::angleAxis(4.7f, camera_.GetSide()) * camera_.GetOrientation());
-			node->Translate(camera_.GetSide()*player->speed);
 		}
 
 
-		missle_timer--;
-
-		for (int j = 0; j < enemies.size(); j++) {
-			bool EnemyDed = false;
-			if (enemies[j]->isShooting() && enemies[j] != NULL) {
-				CreateBullet(enemies[j]->GetPosition(), player->GetPosition()- enemies[j]->GetPosition(), enemies[j]->getDamage());
-			}
-			for (int i = 0; i < bullets.size(); i++) {
-
-				if (EnemyDed) continue;
-				if(collision(bullets[i], enemies[j])){
-					enemies[j]->die();
-					bullets[i]->die();
-					scene_.RemoveNode(enemies[j]);
-					scene_.RemoveNode(bullets[i]);
-					enemies.erase(enemies.begin() + (j));
-					bullets.erase(bullets.begin() + (i));
-					EnemyDed = true;
-				}
-
-			}
-
-			
-		
-		}
 
 
-		for (int i = 0; i < bullets.size(); i++) {
-			if (bullets[i]->GetLifeSpan() < 0) {
-				bullets[i]->die();
-				scene_.RemoveNode(bullets[i]);
-				bullets.erase(bullets.begin() + (i));
-			}
-		}
-		
 
 		scene_.Update();
 
@@ -424,7 +306,7 @@ void Game::KeyCallback(GLFWwindow* window, int key, int scancode, int action, in
 
 
     // Quit game if 'q' is pressed
-    if (key == GLFW_KEY_P && action == GLFW_PRESS){
+    if (key == GLFW_KEY_Q && action == GLFW_PRESS){
         glfwSetWindowShouldClose(window, true);
     }
 
@@ -454,18 +336,6 @@ void Game::KeyCallback(GLFWwindow* window, int key, int scancode, int action, in
 		if (key == GLFW_KEY_D && action == GLFW_PRESS) {game->d_input = true;}
 		else if (action == GLFW_RELEASE) { game->d_input = false; }
 
-		if (key == GLFW_KEY_Q && action == GLFW_PRESS) { game->q_input = true; }
-		else if (action == GLFW_RELEASE) { game->q_input = false; }
-
-		if (key == GLFW_KEY_E && action == GLFW_PRESS) { game->e_input = true; }
-		else if (action == GLFW_RELEASE) { game->e_input = false; }
-
-		if (key == GLFW_KEY_Z && action == GLFW_PRESS) { game->z_input = true; }
-		else if (action == GLFW_RELEASE) { game->z_input = false; }
-
-		if (key == GLFW_KEY_X && action == GLFW_PRESS) { game->x_input = true; }
-		else if (action == GLFW_RELEASE) { game->x_input = false; }
-
 
 		if (key == GLFW_KEY_1) {
 			game->zoom++;
@@ -474,49 +344,28 @@ void Game::KeyCallback(GLFWwindow* window, int key, int scancode, int action, in
 			game->zoom--;
 		}
 
-		if (key == GLFW_KEY_G) {
-			game->CreateBullet(game->player->GetPosition(), game->camera_.GetForward(), 0);
-			
+		if (key == GLFW_KEY_E) {
+			game->CreateBullet(1, game->player->GetPosition(), game->camera_.GetForward());
 		}
-
-
-		if (key == GLFW_KEY_F && game->missle_timer <= 0) {
-			game->CreateMissles(game->player->GetPosition(), game->camera_.GetForward());
-			game->missle_timer = 120;
-
-		}
-
 
 		if (key == GLFW_KEY_T) {
-			game->CreateTank(game->player->GetPosition()+glm::vec3(10,0,0));
-		}
-		if (key == GLFW_KEY_Y) {
-			game->CreateHeli(game->player->GetPosition() + glm::vec3(10, 0, 0));
-		}
-		if (key == GLFW_KEY_U) {
-			game->CreateGun(game->player->GetPosition() + glm::vec3(10, 0, 0));
+			game->CreateEnemy(1, game->player->GetPosition()+glm::vec3(10,0,0));
 		}
 
-		if (key == GLFW_KEY_B) {
+		if (key == GLFW_KEY_Z) {
 			game->player->SetTexture(game->resman_.GetResource("LOghan"));
 		}
 
-		if (key == GLFW_KEY_N) {
+		if (key == GLFW_KEY_X) {
 			game->player->SetTexture(game->resman_.GetResource("BOrdy"));
 		}
 
 		if (key == GLFW_KEY_C) {
-			game->player->SetTexture(game->resman_.GetResource("Tanks"));
+			game->player->SetTexture(game->resman_.GetResource("Grass"));
 		}
 
 		if (key == GLFW_KEY_V) {
-			game->player->SetTexture(game->resman_.GetResource("Guns"));
-		}
-		if (key == GLFW_KEY_M) {
-			game->player->SetTexture(game->resman_.GetResource("Helis"));
-		}
-		if (key == GLFW_KEY_COMMA) {
-			game->player->SetTexture(game->resman_.GetResource("Waifu"));
+			game->player->SetTexture(game->resman_.GetResource("ShinyTextureMaterial"));
 		}
 
 	}
@@ -555,7 +404,7 @@ Asteroid *Game::CreateAsteroidInstance(std::string entity_name, std::string obje
 
     // Create asteroid instance
     Asteroid *ast = new Asteroid(entity_name, geom, mat);
-    scene_.AddNode(ast);
+    //scene_.AddNode(ast);
     return ast;
 }
 
@@ -596,7 +445,7 @@ SceneNode *Game::CreateInstance(std::string entity_name, std::string object_name
 
 	Resource *tex = resman_.GetResource(texture_name);
 
-    SceneNode *scn = scene_.CreateNode(entity_name, geom, mat, tex);
+    SceneNode *scn = new SceneNode(entity_name, geom, mat, tex);
     return scn;
 }
 
@@ -617,25 +466,57 @@ SceneNode *Game::CreatePlayer() {
 
 
 	Player *player = new Player("player", geom, mat, tex);
+	//scene_.AddNode(player);
 
-	player->SetForward(glm::angleAxis(4.7f, player->GetSide()) *camera_.GetForward());
 
-	scene_.AddNode(player);
+	player->Scale(glm::vec3(1.0, 2.0, 1.0));
+	glm::quat rotation = glm::angleAxis(-glm::pi<float>() / 2.0f, glm::vec3(1.0, 0.0, 0.0));
+	player->Rotate(rotation);
+	player->SetPosition(glm::vec3(0.0, 30.0, -2.0));
+
+
+	t_blade = CreateInstance("t_blade", "GroundMesh", "ShinyTextureMaterial", "BOrdy");
+	t_blade->SetOrientation(glm::angleAxis(0.0f, camera_.GetForward()) * camera_.GetOrientation());
+	t_blade->SetPosition(glm::vec3(0.0, 0.5, 0.5));
+	t_blade->Scale(glm::vec3(4.0, 0.25, 0.01));
+
+
+	tail = CreateInstance("tail", "GroundMesh", "ShinyTextureMaterial", "BOrdy");
+	tail->Scale(glm::vec3(0.25, 1.5, 0.25));
+	tail->SetPosition(glm::vec3(0.0, -1.5, 0.2));
+
+	wings = CreateInstance("wings", "GroundMesh", "ShinyTextureMaterial", "BOrdy");
+	wings->Scale(glm::vec3(1.8, 0.4, 0.1));
+	wings->SetPosition(glm::vec3(0.0, 0.25, -0.15));
+
+	b_blade = CreateInstance("b_blade", "GroundMesh", "ShinyTextureMaterial", "BOrdy");
+	b_blade->Scale(glm::vec3(0.01, 0.1, 1.0));
+	b_blade->SetPosition(glm::vec3(-0.1, -0.7, 0.0));
+
+	SceneNode *body = CreateInstance("hellBody", "GroundMesh", "ShinyTextureMaterial", "BOrdy");
+	body->Scale(glm::vec3(1.01, 1.99, 1.01));
+	body->SetPosition(glm::vec3(0.0, -0.01, 0.0));
+
+
+	player->AddChild(body);
+    player->AddChild(t_blade);
+	player->AddChild(tail);
+	player->AddChild(wings);
+	tail->AddChild(b_blade);
+
 	return player;
 
 
 }
 
 
-void Game::CreateBullet(glm::vec3 position, glm::vec3 velocity, int type) {
+void Game::CreateBullet(int num_bullets, glm::vec3 position, glm::vec3 velocity) {
 	// Create instance name
 	std::stringstream ss;
 	ss << num_bullets;
 	std::string index = ss.str();
 	std::string name = "BulletInstance" + index;
 
-
-	velocity = glm::normalize(velocity);
 
 	// Get resources
 	Resource *geom = resman_.GetResource("SphereMesh");
@@ -651,92 +532,25 @@ void Game::CreateBullet(glm::vec3 position, glm::vec3 velocity, int type) {
 	Resource *tex = resman_.GetResource("LOghan");
 
 	// Create asteroid instance
-	Bullet *bul = new Bullet(name, geom, mat, tex, type);
+	Bullet *bul = new Bullet(name, geom, mat, tex);
 
-	bul->Scale(glm::vec3(0.3, 0.3, 0.3));
 
-	scene_.AddNode(bul);
+	//scene_.AddNode(bul);
 
 
 	// Set attributes of bullet
 
-	float speed = 1;
+	float speed = 5;
 
 	bul->SetPosition(position + velocity * speed);
 	//bul->SetOrientation(glm::normalize(glm::angleAxis(glm::pi<float>()*((float)rand() / RAND_MAX), glm::vec3(((float)rand() / RAND_MAX), ((float)rand() / RAND_MAX), ((float)rand() / RAND_MAX)))));
 	bul->SetVelocity(velocity * speed);
 
-
-	if (type == 0) {
-		speed = 3;
-		bullets.push_back(bul);
-}
-
-	else {
-		bul->SetDamage(type);
-		enemyBullets.push_back(bul);
-	
-	}
-
-
 }
 
 
 
-void Game::CreateMissles(glm::vec3 position, glm::vec3 Forwardvelocity) {
-	for (float j = -1; j < 2; j++) {
-
-		for (float i = -2; i < 3; i++) {
-			if (i == 0) i++;
-			// Create instance name
-			std::stringstream ss;
-			ss << num_missles;
-			std::string index = ss.str();
-			std::string name = "MissleInstance" + index;
-
-
-			// Get resources
-			Resource *geom = resman_.GetResource("SphereMesh");
-			if (!geom) {
-				throw(GameException(std::string("Could not find resource \"") + "SphereMesh" + std::string("\"")));
-			}
-
-			Resource *mat = resman_.GetResource("ShinyTextureMaterial");
-			if (!mat) {
-				throw(GameException(std::string("Could not find resource \"") + "ShinyTextureMaterial" + std::string("\"")));
-			}
-
-			Resource *tex = resman_.GetResource("BOrdy");
-
-			// Create asteroid instance
-			Missle *bul = new Missle(name, geom, mat, tex, Forwardvelocity);
-
-			bul->Scale(glm::vec3(0.3,0.3,0.3));
-
-			scene_.AddNode(bul);
-
-
-			// Set attributes of bullet
-
-			float speed = 0.025;
-
-			glm::vec3 velocity = camera_.GetSide() * i + glm::vec3(0,j,0);
-
-			//velocity += glm::vec3(i,0,0);
-
-			bul->SetPosition(position);
-			//bul->SetOrientation(glm::normalize(glm::angleAxis(glm::pi<float>()*((float)rand() / RAND_MAX), glm::vec3(((float)rand() / RAND_MAX), ((float)rand() / RAND_MAX), ((float)rand() / RAND_MAX)))));
-			bul->SetVelocity(velocity * speed);
-
-			bullets.push_back(bul);
-
-		}
-	}
-}
-
-
-
-void Game::CreateTank(glm::vec3 position) {
+void Game::CreateEnemy(int num_enemies, glm::vec3 position) {
 	// Create instance name
 	std::stringstream ss;
 	ss << num_enemies;
@@ -745,7 +559,7 @@ void Game::CreateTank(glm::vec3 position) {
 
 
 	// Get resources
-	Resource *geom = resman_.GetResource("SphereMesh");
+	Resource *geom = resman_.GetResource("GroundMesh");
 	if (!geom) {
 		throw(GameException(std::string("Could not find resource \"") + "SphereMesh" + std::string("\"")));
 	}
@@ -755,107 +569,70 @@ void Game::CreateTank(glm::vec3 position) {
 		throw(GameException(std::string("Could not find resource \"") + "ShinyTextureMaterial" + std::string("\"")));
 	}
 
-	Resource *tex = resman_.GetResource("Tanks");
+	Resource *tex = resman_.GetResource("BOrdy");
 
 	// Create asteroid instance
-	Tanks *enemy = new Tanks(name, geom, mat, tex);
+	Enemy *enemy = new Enemy(name, geom, mat, tex);
 
 
-	scene_.AddNode(enemy);
+	//scene_.AddNode(enemy);
+
+	MakeTank(enemy);
+
+
 
 
 	// Set attributes of bullet
 
 	float speed = 5;
 
-	
 	enemy->SetPosition(position);
 	//bul->SetOrientation(glm::normalize(glm::angleAxis(glm::pi<float>()*((float)rand() / RAND_MAX), glm::vec3(((float)rand() / RAND_MAX), ((float)rand() / RAND_MAX), ((float)rand() / RAND_MAX)))));
 	
-	enemies.push_back(enemy);
+	world->AddChild(enemy);
+	
 
 }
 
-void Game::CreateGun(glm::vec3 position) {
-	// Create instance name
-	std::stringstream ss;
-	ss << num_enemies;
-	std::string index = ss.str();
-	std::string name = "EnemyInstance" + index;
+void Game::MakeTank(SceneNode* enemy) {
+	enemy->Scale(glm::vec3(1.5, 3.0, 0.5));
+	enemy->SetPosition(glm::vec3(0.0, 0.0, 0.0));
+	glm::quat rotation = glm::angleAxis(-glm::pi<float>() / 2.0f, glm::vec3(1.0, 0.0, 0.0));
+	enemy->Rotate(rotation);
 
+	SceneNode *wheel1 = CreateInstance("wheel1", "GroundMesh", "ShinyTextureMaterial", "BOrdy");
+	wheel1->Scale(glm::vec3(0.5, 2.8, 0.6));
+	wheel1->SetPosition(glm::vec3(0.99, 0.0, -0.25));
 
-	// Get resources
-	Resource *geom = resman_.GetResource("SphereMesh");
-	if (!geom) {
-		throw(GameException(std::string("Could not find resource \"") + "SphereMesh" + std::string("\"")));
-	}
+	SceneNode *wheel2 = CreateInstance("wheel2", "GroundMesh", "ShinyTextureMaterial", "BOrdy");
+	wheel2->Scale(glm::vec3(0.5, 2.8, 0.6));
+	wheel2->SetPosition(glm::vec3(-0.99, 0.0, -0.25));
 
-	Resource *mat = resman_.GetResource("ShinyTextureMaterial");
-	if (!mat) {
-		throw(GameException(std::string("Could not find resource \"") + "ShinyTextureMaterial" + std::string("\"")));
-	}
+	SceneNode *gun_roof = CreateInstance("gun_roof", "GroundMesh", "ShinyTextureMaterial", "BOrdy");
+	gun_roof->Scale(glm::vec3(1.5, 2.15, 0.75));
+	gun_roof->SetPosition(glm::vec3(0.0, -0.42, 0.61));
 
-	Resource *tex = resman_.GetResource("Guns");
+	SceneNode *track_cover = CreateInstance("track_cover", "GroundMesh", "ShinyTextureMaterial", "BOrdy");
+	track_cover->Scale(glm::vec3(2.5, 2.9, 0.1));
+	track_cover->SetPosition(glm::vec3(0.0, 0.0, 0.22));
 
-	// Create asteroid instance
-	Guns *enemy = new Guns(name, geom, mat, tex);
+	SceneNode *gun = CreateInstance("gun", "GroundMesh", "ShinyTextureMaterial", "BOrdy");
+	rotation = glm::angleAxis(-glm::pi<float>() / -5.0f, glm::vec3(1.0, 0.0, 0.0));
+	gun->Rotate(rotation);
+	gun->Scale(glm::vec3(0.25, 2.25, 0.25));
+	gun->SetPosition(glm::vec3(0.0, 0.75, 0.5));
 
+	SceneNode *body = CreateInstance("body", "GroundMesh", "ShinyTextureMaterial", "BOrdy");
+	body->Scale(glm::vec3(1.55, 3.0, 0.55));
+	body->SetPosition(glm::vec3(0.0, -0.01, 0.0));
 
-	scene_.AddNode(enemy);
-
-
-	// Set attributes of bullet
-
-	float speed = 5;
-
-
-	enemy->SetPosition(position);
-	//bul->SetOrientation(glm::normalize(glm::angleAxis(glm::pi<float>()*((float)rand() / RAND_MAX), glm::vec3(((float)rand() / RAND_MAX), ((float)rand() / RAND_MAX), ((float)rand() / RAND_MAX)))));
-
-	enemies.push_back(enemy);
-
+	enemy->AddChild(wheel1);
+	enemy->AddChild(wheel2);
+	enemy->AddChild(gun_roof);
+	enemy->AddChild(track_cover);
+	enemy->AddChild(body);
+	enemy->AddChild(gun);
 }
-
-void Game::CreateHeli(glm::vec3 position) {
-	// Create instance name
-	std::stringstream ss;
-	ss << num_enemies;
-	std::string index = ss.str();
-	std::string name = "EnemyInstance" + index;
-
-
-	// Get resources
-	Resource *geom = resman_.GetResource("SphereMesh");
-	if (!geom) {
-		throw(GameException(std::string("Could not find resource \"") + "SphereMesh" + std::string("\"")));
-	}
-
-	Resource *mat = resman_.GetResource("ShinyTextureMaterial");
-	if (!mat) {
-		throw(GameException(std::string("Could not find resource \"") + "ShinyTextureMaterial" + std::string("\"")));
-	}
-
-	Resource *tex = resman_.GetResource("Helis");
-
-	// Create asteroid instance
-	Helis *enemy = new Helis(name, geom, mat, tex);
-
-
-	scene_.AddNode(enemy);
-
-
-	// Set attributes of bullet
-
-	float speed = 5;
-
-
-	enemy->SetPosition(position);
-	//bul->SetOrientation(glm::normalize(glm::angleAxis(glm::pi<float>()*((float)rand() / RAND_MAX), glm::vec3(((float)rand() / RAND_MAX), ((float)rand() / RAND_MAX), ((float)rand() / RAND_MAX)))));
-
-	enemies.push_back(enemy);
-
-}
-
 
 
 bool Game::collision(SceneNode *node1, SceneNode *node2) {
@@ -867,7 +644,6 @@ bool Game::collision(SceneNode *node1, SceneNode *node2) {
 	double c = glm::dot(s,s) - r*r; // if negative, they overlap
 	if (c < 0.0) // if true, they already overlap
 	{
-		std::cout << "Collide";
 		return true;
 	}
 

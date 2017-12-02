@@ -33,22 +33,10 @@ namespace game {
 		// Update geometry configuration
 		void Update(void);
 
-		void die();
 
-		bool isShooting();
-
-		int getDamage();
-
-
-	protected:
+	private:
 		// Angular momentum of asteroid
 		glm::quat angm_;
-		int health;
-		int damage;
-		int shootTimer;
-		bool shooting;
-
-		
 	}; // class Asteroid
 
 } // namespace game

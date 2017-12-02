@@ -21,7 +21,9 @@ namespace game {
             glm::vec3 background_color_;
 
             // Scene nodes to render
-            std::vector<SceneNode *> node_;
+            //std::vector<SceneNode *> node_;
+
+			SceneNode* root_;
 
         public:
             typedef std::vector<SceneNode *>::const_iterator const_iterator;
@@ -50,6 +52,8 @@ namespace game {
 
             // Update entire scene
             void Update(void);
+
+			void SetRoot(SceneNode* node);
 
     }; // class SceneGraph
 

@@ -2,6 +2,7 @@
 #define SCENE_NODE_H_
 
 #include <string>
+#include <vector>
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -47,14 +48,9 @@ namespace game {
             void Rotate(glm::quat rot);
             void Scale(glm::vec3 scale);
 
-			glm::vec3 GetForward(void) const;
-			glm::vec3 GetSide(void) const;
-
-			void SetForward(glm::vec3 forward);
-
             // Draw the node according to scene parameters in 'camera'
             // variable
-            virtual void Draw(Camera *camera);
+            virtual glm::mat4 Draw(Camera *camera, glm::mat4 parent_transf);
 
             // Update the node
             virtual void Update(void);
@@ -69,7 +65,12 @@ namespace game {
 			void SetMaterial(const Resource *material);
 			void SetTexture(const Resource *texture);
 
+			SceneNode *parent;
+			std::vector<SceneNode* > children;
 
+			void AddChild(SceneNode *node);
+			std::vector<SceneNode *>::const_iterator children_begin() const;
+			std::vector<SceneNode *>::const_iterator children_end() const;
 
         protected:
             std::string name_; // Name of the scene node
@@ -83,17 +84,11 @@ namespace game {
             glm::quat orientation_; // Orientation of node
             glm::vec3 scale_; // Scale of node
 
-
-			glm::vec3 forward_; // Initial forward vector
-			glm::vec3 side_; // Initial side vector
-
-
-			bool draw;
-
 			float radius;
 
             // Set matrices that transform the node in a shader program
-            void SetupShader(GLuint program);
+            glm::mat4 SetupShader(GLuint program, glm::mat4 parent_transf);
+
 
     }; // class SceneNode
 

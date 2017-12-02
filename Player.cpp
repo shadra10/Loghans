@@ -25,9 +25,6 @@ namespace game {
 	}
 
 
-
-
-
 	void Player::Update(void) {
 
 

@@ -30,7 +30,6 @@ namespace game {
 		glm::quat GetAngM(void) const;
 		void SetAngM(glm::quat angm);
 
-
 		// Update geometry configuration
 		void Update(void);
 
@@ -38,7 +37,6 @@ namespace game {
 	private:
 		// Angular momentum of asteroid
 		glm::quat angm_;
-
 	}; // class Asteroid
 
 } // namespace game

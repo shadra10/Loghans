@@ -17,15 +17,6 @@ SceneNode::SceneNode(const std::string name, const Resource *geometry, const Res
 
 	speed = 0;
 
-	draw = true;
-
-
-	forward_ = glm::vec3(0.0,0.0,0.0) - glm::vec3(0.5, 0.5, 10.0);
-	forward_ = -glm::normalize(forward_);
-	side_ = glm::cross(glm::vec3(0.0, 1.0, 0.0), forward_);
-	side_ = glm::normalize(side_);
-
-
     // Set geometry
     if (geometry->GetType() == PointSet){
         mode_ = GL_POINTS;
@@ -55,6 +46,8 @@ SceneNode::SceneNode(const std::string name, const Resource *geometry, const Res
 
     // Other attributes
     scale_ = glm::vec3(1.0, 1.0, 1.0);
+
+	parent = NULL;
 }
 
 
@@ -158,27 +151,9 @@ GLuint SceneNode::GetMaterial(void) const {
 }
 
 
-glm::vec3 SceneNode::GetForward(void) const {
+glm::mat4 SceneNode::Draw(Camera *camera, glm::mat4 parent_transf){
 
-	glm::vec3 current_forward = orientation_ * forward_;
-	return -current_forward; // Return -forward since the camera coordinate system points in the opposite direction
-}
-
-void SceneNode::SetForward(glm::vec3 forward){
-
-	forward_ = forward;
-}
-
-glm::vec3 SceneNode::GetSide(void) const {
-
-	glm::vec3 current_side = orientation_ * side_;
-	return current_side;
-}
-
-
-void SceneNode::Draw(Camera *camera){
-
-	if (draw) {
+	if ((array_buffer_ > 0) && (material_ > 0)) {
 		// Select proper material (shader program)
 		glUseProgram(material_);
 
@@ -190,7 +165,7 @@ void SceneNode::Draw(Camera *camera){
 		camera->SetupShader(material_);
 
 		// Set world matrix and other shader input variables
-		SetupShader(material_);
+		glm::mat4 transf = SetupShader(material_, parent_transf);
 
 		// Draw geometry
 		if (mode_ == GL_POINTS) {
@@ -199,6 +174,14 @@ void SceneNode::Draw(Camera *camera){
 		else {
 			glDrawElements(mode_, size_, GL_UNSIGNED_INT, 0);
 		}
+
+		return transf;
+	}
+	else {
+		glm::mat4 rotation = glm::mat4_cast(orientation_);
+		glm::mat4 translation = glm::translate(glm::mat4(1.0), position_);
+		glm::mat4 transf = parent_transf * translation * rotation;
+		return transf;
 	}
 }
 
@@ -211,7 +194,7 @@ void SceneNode::Update(void){
 }
 
 
-void SceneNode::SetupShader(GLuint program){
+glm::mat4 SceneNode::SetupShader(GLuint program, glm::mat4 parent_transf){
 
     // Set attributes for shaders
     GLint vertex_att = glGetAttribLocation(program, "vertex");
@@ -234,10 +217,11 @@ void SceneNode::SetupShader(GLuint program){
     glm::mat4 scaling = glm::scale(glm::mat4(1.0), scale_);
     glm::mat4 rotation = glm::mat4_cast(orientation_);
     glm::mat4 translation = glm::translate(glm::mat4(1.0), position_);
-    glm::mat4 transf = translation * rotation * scaling;
+	glm::mat4 transf = parent_transf * translation * rotation;// * scaling;
+	glm::mat4 local_transf = transf * scaling;
 
     GLint world_mat = glGetUniformLocation(program, "world_mat");
-    glUniformMatrix4fv(world_mat, 1, GL_FALSE, glm::value_ptr(transf));
+    glUniformMatrix4fv(world_mat, 1, GL_FALSE, glm::value_ptr(local_transf));
 
     // Normal matrix
     glm::mat4 normal_matrix = glm::transpose(glm::inverse(transf));
@@ -270,6 +254,8 @@ void SceneNode::SetupShader(GLuint program){
     GLint timer_var = glGetUniformLocation(program, "timer");
     double current_time = glfwGetTime();
     glUniform1f(timer_var, (float) current_time);
+
+	return transf;
 }
 
 
@@ -286,6 +272,22 @@ void SceneNode::SetTexture(const Resource *texture) {
 	this->texture_ = texture->GetResource();
 
 
+}
+
+void SceneNode::AddChild(SceneNode *node) {
+	children.push_back(node);
+	node->parent = this;
+}
+
+std::vector<SceneNode *>::const_iterator SceneNode::children_begin() const {
+
+	return children.begin();
+}
+
+
+std::vector<SceneNode *>::const_iterator SceneNode::children_end() const {
+
+	return children.end();
 }
 
 } // namespace game;

@@ -13,11 +13,7 @@
 #include "asteroid.h"
 #include "Player.h"
 #include "bullet.h"
-#include "missle.h"
 #include "Enemy.h"
-#include "Guns.h"
-#include "Helis.h"
-#include "Tanks.h"
 
 namespace game {
 
@@ -48,16 +44,12 @@ namespace game {
             // Run the game: keep the application active
             void MainLoop(void); 
 
+			void MakeTank(SceneNode *enemy);
+			//SceneNode* world;
+
         private:
 
-			SceneNode *player;
-
-			std::vector<Enemy *> enemies;
-			std::vector<Bullet *> bullets;
-			std::vector<Bullet *> enemyBullets;
-
-
-			int missle_timer;
+			SceneNode *world, *player, *ground, *t_blade, *tail, *wings, *b_blade;
 
 			float zoom;
             // GLFW window
@@ -77,15 +69,11 @@ namespace game {
 
 			bool paused;
 
-			bool w_input, s_input, a_input, d_input, q_input, e_input, z_input, x_input;
+			bool w_input, s_input, a_input, d_input;
 
 			double CursorXPos, CursorYPos, OldCursorXPos, OldCursorYPos;
 
-			double camera_angle_Y;
-
 			int gameState;
-
-			int num_enemies, num_bullets, num_missles;
 
             // Methods to initialize the game
             void InitWindow(void);
@@ -103,13 +91,9 @@ namespace game {
             // Create entire random asteroid field
             void CreateAsteroidField(int num_asteroids = 1500);
 
-			void CreateBullet(glm::vec3 position, glm::vec3 velocity, int type);
+			void CreateBullet(int num_bullets, glm::vec3 position, glm::vec3 velocity);
 
-			void CreateMissles(glm::vec3 position, glm::vec3 velocity);
-
-			void CreateTank(glm::vec3 position);
-			void CreateGun(glm::vec3 position);
-			void CreateHeli(glm::vec3 position);
+			void CreateEnemy(int num_enemies,glm::vec3 position);
 
 			bool collision(SceneNode *node1, SceneNode *node2);
 
