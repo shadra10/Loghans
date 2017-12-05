@@ -1,0 +1,68 @@
+﻿  asteroid.cpp
+  camera.cpp
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\camera.cpp(115): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  game.cpp
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(23): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(135): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(400): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(434): warning C4018: '<': signed/unsigned mismatch
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(439): warning C4018: '<=': signed/unsigned mismatch
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(490): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(536): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(539): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(547): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(550): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(559): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(565): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(631): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(654): warning C4018: '<': signed/unsigned mismatch
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(663): warning C4018: '<': signed/unsigned mismatch
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(692): warning C4018: '<': signed/unsigned mismatch
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(700): warning C4018: '<': signed/unsigned mismatch
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(757): warning C4996: '_sleep': This function or variable has been superceded by newer library or operating system functionality. Consider using Sleep instead. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\stdlib.h(1271): note: see declaration of '_sleep'
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(1127): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(1451): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(1452): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp(1453): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  main.cpp
+  resource.cpp
+  resource_manager.cpp
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\resource_manager.cpp(57): warning C4018: '<': signed/unsigned mismatch
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\resource_manager.cpp(69): warning C4018: '<': signed/unsigned mismatch
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\resource_manager.cpp(203): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\resource_manager.cpp(208): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\resource_manager.cpp(305): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\resource_manager.cpp(592): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\resource_manager.cpp(599): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\resource_manager.cpp(600): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\resource_manager.cpp(601): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\resource_manager.cpp(604): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\resource_manager.cpp(606): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  scene_graph.cpp
+  scene_node.cpp
+  Player.cpp
+  bullet.cpp
+  missle.cpp
+  Enemy.cpp
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\Enemy.cpp(68): warning C4305: '-=': truncation from 'double' to 'float'
+  Tanks.cpp
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\Tanks.cpp(62): warning C4305: '-=': truncation from 'double' to 'float'
+  Helis.cpp
+  Guns.cpp
+  BaeHawk.cpp
+C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\BaeHawk.cpp(44): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+c:\users\briancunningham3\desktop\loghansadventureoflove\scene_node.cpp(229): warning C4715: 'game::SceneNode::Draw': not all control paths return a value
+  SOIL.lib(SOIL.obj) : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
+LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  Generating code
+  Finished generating code
+SOIL.lib(SOIL.obj) : warning LNK4099: PDB 'SOIL.pdb' was not found with 'SOIL.lib(SOIL.obj)' or at 'C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\bin\Debug\SOIL.pdb'; linking object as if no debug info
+SOIL.lib(image_helper.obj) : warning LNK4099: PDB 'SOIL.pdb' was not found with 'SOIL.lib(image_helper.obj)' or at 'C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\bin\Debug\SOIL.pdb'; linking object as if no debug info
+SOIL.lib(stb_image_aug.obj) : warning LNK4099: PDB 'SOIL.pdb' was not found with 'SOIL.lib(stb_image_aug.obj)' or at 'C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\bin\Debug\SOIL.pdb'; linking object as if no debug info
+SOIL.lib(image_DXT.obj) : warning LNK4099: PDB 'SOIL.pdb' was not found with 'SOIL.lib(image_DXT.obj)' or at 'C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\bin\Debug\SOIL.pdb'; linking object as if no debug info
+glew32s.lib(glew.obj) : warning LNK4099: PDB 'glew_static.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\bin\Debug\glew_static.pdb'; linking object as if no debug info
+  TextureDemo.vcxproj -> C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\bin\Debug\TextureDemo_d.exe

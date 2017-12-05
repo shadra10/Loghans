@@ -1,0 +1,2 @@
+C:/Users/briancunningham3/Desktop/LoghansAdventureofLove/bin/CMakeFiles/TextureDemo.dir
+C:/Users/briancunningham3/Desktop/LoghansAdventureofLove/bin/CMakeFiles/ALL_BUILD.dir

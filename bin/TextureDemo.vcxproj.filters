@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\asteroid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\resource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\resource_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\scene_graph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\scene_node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\bullet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\missle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\Enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\Tanks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\Helis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\Guns.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\BaeHawk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\asteroid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\resource_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\scene_graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\scene_node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\missle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\Enemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\Tanks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\Helis.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\Guns.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\BaeHawk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\material_vp.glsl" />
+    <None Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\material_fp.glsl" />
+    <None Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\shiny_blue_vp.glsl" />
+    <None Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\shiny_blue_fp.glsl" />
+    <None Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\shiny_texture_vp.glsl" />
+    <None Include="C:\Users\briancunningham3\Desktop\LoghansAdventureofLove\shiny_texture_fp.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{A4770726-A9D2-3BCB-ABFD-E1ED4491D40C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{1F710699-EED5-3B95-9C99-09FC2CDA01D3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
