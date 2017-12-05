@@ -34,10 +34,19 @@ namespace game {
 		// Update geometry configuration
 		void Update(void);
 
+		float getHealth();
+
+		void takeDamage(int);
+
+		void setDraw(bool);
+		
+
 
 	private:
 		// Angular momentum of asteroid
 		glm::quat angm_;
+
+		float health;
 
 	}; // class Asteroid
 

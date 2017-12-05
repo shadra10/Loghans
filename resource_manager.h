@@ -30,12 +30,16 @@ namespace game {
             // Get the resource with the specified name
             Resource *GetResource(const std::string name) const;
 
+			void RemoveResource(std::string name);
+
             // Methods to create specific resources
             // Create the geometry for a torus and add it to the list of resources
             void CreateTorus(std::string object_name, float loop_radius = 0.6, float circle_radius = 0.2, int num_loop_samples = 90, int num_circle_samples = 30);
             void CreateSphere(std::string object_name, float radius = 0.6, int num_samples_theta = 90, int num_samples_phi = 45);
 			void CreateCube(std::string object_name);
 			void CreateGround(std::string object_name);
+			void CreateParts(std::string object_name);
+			void CreateSphereParticles(std::string object_name, int num_particles = 20000);
 
         private:
             // List storing all resources

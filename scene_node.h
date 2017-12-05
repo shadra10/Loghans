@@ -2,6 +2,7 @@
 #define SCENE_NODE_H_
 
 #include <string>
+#include <vector>
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -47,14 +48,16 @@ namespace game {
             void Rotate(glm::quat rot);
             void Scale(glm::vec3 scale);
 
+            // Draw the node according to scene parameters in 'camera'
+            // variable
+            virtual glm::mat4 Draw(Camera *camera, glm::mat4 parent_transf);
+
 			glm::vec3 GetForward(void) const;
 			glm::vec3 GetSide(void) const;
 
 			void SetForward(glm::vec3 forward);
 
-            // Draw the node according to scene parameters in 'camera'
-            // variable
-            virtual void Draw(Camera *camera);
+			void takeDamage(int);
 
             // Update the node
             virtual void Update(void);
@@ -65,11 +68,19 @@ namespace game {
             GLuint GetElementArrayBuffer(void) const;
             GLsizei GetSize(void) const;
             GLuint GetMaterial(void) const;
+			void removeChild(SceneNode* child);
 
 			void SetMaterial(const Resource *material);
 			void SetTexture(const Resource *texture);
 
+			SceneNode *parent;
+			std::vector<SceneNode* > children;
 
+			void AddChild(SceneNode *node);
+			std::vector<SceneNode *>::const_iterator children_begin() const;
+			std::vector<SceneNode *>::const_iterator children_end() const;
+
+			bool isSafe();
 
         protected:
             std::string name_; // Name of the scene node
@@ -83,6 +94,10 @@ namespace game {
             glm::quat orientation_; // Orientation of node
             glm::vec3 scale_; // Scale of node
 
+			float radius;
+
+            // Set matrices that transform the node in a shader program
+            glm::mat4 SetupShader(GLuint program, glm::mat4 parent_transf);
 
 			glm::vec3 forward_; // Initial forward vector
 			glm::vec3 side_; // Initial side vector
@@ -90,10 +105,7 @@ namespace game {
 
 			bool draw;
 
-			float radius;
-
-            // Set matrices that transform the node in a shader program
-            void SetupShader(GLuint program);
+			bool safe;
 
     }; // class SceneNode
 

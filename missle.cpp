@@ -6,7 +6,7 @@ namespace game {
 		radius = 1;
 		forwardVelocity = forward;
 		lifeSpan = 300;
-		damage = 35;
+		damage = 40;
 	}
 
 

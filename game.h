@@ -13,11 +13,12 @@
 #include "asteroid.h"
 #include "Player.h"
 #include "bullet.h"
-#include "missle.h"
 #include "Enemy.h"
 #include "Guns.h"
 #include "Helis.h"
 #include "Tanks.h"
+#include "missle.h"
+#include "BaeHawk.h"
 
 namespace game {
 
@@ -48,18 +49,39 @@ namespace game {
             // Run the game: keep the application active
             void MainLoop(void); 
 
+			void MakeTank(SceneNode *enemy);
+			//SceneNode* world;
+		
+
+			void MakeGunner(SceneNode *enemy);
+
+			void MakeHelli(SceneNode *enemy);
+
+			void MakePlayer(Player* player);
+
+			void MakeBae(SceneNode* player);
+
         private:
 
-			SceneNode *player;
+			SceneNode *world, *ground, *t_blade, *tail, *wings, *b_blade;
+
+			Player *player;
+			BaeHawk * baehawk;
 
 			std::vector<Enemy *> enemies;
 			std::vector<Bullet *> bullets;
 			std::vector<Bullet *> enemyBullets;
+			std::vector<SceneNode*> buildings;
+			std::vector<Resource*> dialogues;
 
 
-			int missle_timer;
+			int currentDialogue;
+
+			int missle_timer, enemy_spawn_timer;
 
 			float zoom;
+
+			bool firstPerson;
             // GLFW window
             GLFWwindow* window_;
 
@@ -79,13 +101,21 @@ namespace game {
 
 			bool w_input, s_input, a_input, d_input, q_input, e_input, z_input, x_input;
 
-			double CursorXPos, CursorYPos, OldCursorXPos, OldCursorYPos;
 
+			double CursorXPos, CursorYPos, OldCursorXPos, OldCursorYPos;
 			double camera_angle_Y;
 
 			int gameState;
 
 			int num_enemies, num_bullets, num_missles;
+
+			int AnimationTimer;
+
+			int introPhase;
+
+			int affection;
+
+			SceneNode *Health, *Reticle, *DialogueBox;
 
             // Methods to initialize the game
             void InitWindow(void);
@@ -93,9 +123,12 @@ namespace game {
             void InitEventHandlers(void);
  
             // Methods to handle events
+			static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+			static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
             static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
             static void ResizeCallback(GLFWwindow* window, int width, int height);
 
+			void PlayerMovement();
 
             // Asteroid field
             // Create instance of one asteroid
@@ -113,16 +146,29 @@ namespace game {
 
 			bool collision(SceneNode *node1, SceneNode *node2);
 
+			void spawnEnemies(void);
+
+			void spawnBuildings(void);
+			
+
             // Create an instance of an object stored in the resource manager
             SceneNode *CreateInstance(std::string entity_name, std::string object_name, std::string material_name, std::string texture_name = std::string(""));
 
 			// Create an instance of an object stored in the resource manager
-			SceneNode *CreatePlayer();
+			Player *CreatePlayer();
+			BaeHawk *CreateBae();
 
 
 
-
+			void MainGame();
 			void GameOver(void);
+			void Intro();
+
+
+			void CreateHUD();
+
+			void ViewOrtho(int,int);
+			void ViewPerspective();
 
     }; // class Game
 

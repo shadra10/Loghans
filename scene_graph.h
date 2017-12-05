@@ -9,6 +9,7 @@
 
 #include "scene_node.h"
 #include "resource.h"
+#include "resource_manager.h"
 #include "camera.h"
 
 namespace game {
@@ -21,7 +22,9 @@ namespace game {
             glm::vec3 background_color_;
 
             // Scene nodes to render
-            std::vector<SceneNode *> node_;
+            //std::vector<SceneNode *> node_;
+
+			SceneNode* root_;
 
         public:
             typedef std::vector<SceneNode *>::const_iterator const_iterator;
@@ -38,7 +41,7 @@ namespace game {
             // Add an already-created node
             void AddNode(SceneNode *node);
 			//Remove a node
-			void RemoveNode(SceneNode *node);
+			//void RemoveNode(SceneNode *node);
             // Find a scene node with a specific name
             SceneNode *GetNode(std::string node_name) const;
             // Get node const iterator
@@ -48,8 +51,11 @@ namespace game {
             // Draw the entire scene
             void Draw(Camera *camera);
 
+
             // Update entire scene
             void Update(void);
+
+			void SetRoot(SceneNode* node);
 
     }; // class SceneGraph
 

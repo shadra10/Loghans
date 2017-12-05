@@ -1,5 +1,5 @@
-#ifndef Helis_H_
-#define Helis_H_
+#ifndef BaeHawk_H_
+#define BaeHawk_H_
 
 #include <string>
 #define GLEW_STATIC
@@ -10,19 +10,20 @@
 #include <glm/gtc/quaternion.hpp>
 
 #include "resource.h"
-#include "Enemy.h"
+#include "scene_node.h"
+#include "Player.h"
 
 namespace game {
 
 	// Abstraction of an asteroid
-	class Helis : public Enemy {
+	class BaeHawk : public SceneNode {
 
 	public:
 		// Create asteroid from given resources
-		Helis(const std::string name, const Resource *geometry, const Resource *material, const Resource *tex);
+		BaeHawk(const std::string name, const Resource *geometry, const Resource *material, const Resource *tex, SceneNode *meter);
 
 		// Destructor
-		~Helis();
+		~BaeHawk();
 
 	
 
@@ -30,17 +31,31 @@ namespace game {
 		glm::quat GetAngM(void) const;
 		void SetAngM(glm::quat angm);
 
+
 		// Update geometry configuration
 		void Update(void);
 
-		void die();
+		int getHealth();
 
-		void AttackRange();
+		void takeDamage(int);
+
+		void setDraw(bool);
+
+		void setPlayer(Player *pla);
+
+		SceneNode* getAffection();
+
 
 	private:
 		// Angular momentum of asteroid
 		glm::quat angm_;
-		
+
+		float health;
+
+		Player *player;
+
+		SceneNode *Affection;
+
 	}; // class Asteroid
 
 } // namespace game

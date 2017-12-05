@@ -5,11 +5,11 @@ project(TextureDemo)
 
 # Specify project files: header files and source files
 set(HDRS
-    asteroid.h camera.h game.h resource.h resource_manager.h scene_graph.h scene_node.h Player.h bullet.h missle.h Enemy.h Tanks.h Helis.h Guns.h
+    asteroid.h camera.h game.h resource.h resource_manager.h scene_graph.h scene_node.h Player.h bullet.h missle.h Enemy.h Tanks.h Helis.h Guns.h BaeHawk.h
 )
  
 set(SRCS
-    asteroid.cpp camera.cpp game.cpp main.cpp resource.cpp resource_manager.cpp scene_graph.cpp scene_node.cpp Player.cpp bullet.cpp missle.cpp Enemy.cpp Tanks.cpp Helis.cpp Guns.cpp material_vp.glsl material_fp.glsl shiny_blue_vp.glsl  shiny_blue_fp.glsl shiny_texture_vp.glsl shiny_texture_fp.glsl
+    asteroid.cpp camera.cpp game.cpp main.cpp resource.cpp resource_manager.cpp scene_graph.cpp scene_node.cpp Player.cpp bullet.cpp missle.cpp Enemy.cpp Tanks.cpp Helis.cpp Guns.cpp BaeHawk.cpp material_vp.glsl material_fp.glsl shiny_blue_vp.glsl  shiny_blue_fp.glsl shiny_texture_vp.glsl shiny_texture_fp.glsl
 )
 
 # Add path name to configuration file

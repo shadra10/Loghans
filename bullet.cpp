@@ -3,7 +3,7 @@
 namespace game {
 
 	Bullet::Bullet(const std::string name, const Resource *geometry, const Resource *material, const Resource *tex, int type) : SceneNode(name, geometry, material, tex) {
-		radius = 5;
+		radius = 3;
 		damage = 25;
 		lifeSpan = 500;
 		Type = type;
@@ -15,7 +15,7 @@ namespace game {
 
 
 	void Bullet::SetVelocity(glm::vec3 velocity) {
-	
+
 		velocity_ = velocity;
 	}
 
@@ -24,7 +24,7 @@ namespace game {
 	}
 
 	void Bullet::SetDamage(int newDamage) {
-	
+
 		damage = newDamage;
 	}
 
@@ -33,9 +33,9 @@ namespace game {
 	}
 
 	int Bullet::GetType(void) {
-	
+
 		return Type;
-	
+
 	}
 
 	int Bullet::GetLifeSpan(void) {

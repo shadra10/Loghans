@@ -46,7 +46,6 @@ namespace game {
 		int lifeSpan;
 		int Type;
 	}; // class Bullet
+}
 
-} // namespace game
-
-#endif // ASTEROID_H_
+#endif 

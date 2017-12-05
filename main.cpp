@@ -21,6 +21,7 @@ int main(void){
     }
     catch (std::exception &e){
         PrintException(e);
+		while (1);
     }
 
     return 0;

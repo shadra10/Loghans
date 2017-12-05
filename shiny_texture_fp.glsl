@@ -11,9 +11,9 @@ in vec3 light_pos;
 uniform sampler2D texture_map;
 
 // Material attributes (constants)
-vec4 ambient_color = vec4(0.1, 0.1, 0.1, 1.0);
-vec4 diffuse_color = vec4(0.5, 0.5, 0.5, 1.0);
-vec4 specular_color = vec4(0.8, 0.5, 0.9, 1.0);
+vec4 ambient_color = vec4(0.1, 0.1, 0.0, 1.0);
+vec4 diffuse_color = vec4(0.5, 0.5, 0.0, 1.0);
+vec4 specular_color = vec4(0.9, 0.8, 0.3, 1.0);
 float phong_exponent = 128.0;
 float ambient_amount = 0.5;
 

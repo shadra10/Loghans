@@ -1,11 +1,12 @@
 #include "Guns.h"
-
+#include <iostream>
 namespace game {
 
 	Guns::Guns(const std::string name, const Resource *geometry, const Resource *material, const Resource * tex) : Enemy(name, geometry, material, tex) {
 		speed = 0.5;
 		radius = 1;
-		damage = 10;
+		damage = 1;
+		range = 250;
 	}
 
 
@@ -28,17 +29,25 @@ namespace game {
 	void Guns::Update(void) {
 
 		if (shootTimer <= 0) {
-			shootTimer = 120;
+			shootTimer = 60;
 			shooting = true;
 		}
 		else
 			shooting = false;
 
+		if (!inRange || Target->isSafe()) {
+			shooting = false;
+			
+		}
+
 		shootTimer--;
 
-		position_.y-=0.3;
 
-		if (position_.y < -13) position_.y = -13;
+		float angle = glm::dot(glm::normalize(this->GetForward()), (glm::normalize(-(this->GetPosition() - Target->GetPosition()) * glm::vec3(1, 0, 1))));
+
+		glm::quat rotation = glm::angleAxis(angle, glm::vec3(0.0, 0.0, 1.0));
+		this->Rotate(rotation);
+	
 
 
 	}
